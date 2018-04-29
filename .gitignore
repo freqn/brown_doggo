@@ -1,4 +1,6 @@
 # Sensitive #
-setup.py
-setup.pyc
-app.pyc
+token.py
+
+
+# MISC #
+*.pyc
