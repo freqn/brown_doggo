@@ -7,10 +7,13 @@ from decimal import Decimal
 from binance.client import Client
 import os
 
-api_key = user.API_KEY
-api_secret = user.API_SECRET
-client = Client(api_key, api_secret)
+# config
 tracker = []
+client = Client(user.API_KEY, user.API_SECRET)
+
+# actions
+def get_market_data():
+    return client.get_all_tickers()
 
 def get_bitcoin_usd(coin):
     # pdb.set_trace()
@@ -32,16 +35,20 @@ def play_alert():
     pygame.mixer.music.load("music.mp3")
     pygame.mixer.music.play()
 
+# pdb.set_trace()
 for i in range(0,20000):
     data = client.get_all_tickers()
     result = update_tracker(get_bitcoin_usd('BTCUSDT'))
     if len(tracker) > 1 and tracker[0] > tracker[1]:
         play_alert()
-        print result, "ALERT ALERT"
-    print result, "OK"
-    sleep(10)
- 
-# config
+        # os.system("say 'DANGER DANGER STRANGER. HOLD ONTO YOU BALLS!!!'")
+        print result, "ALERT ALERT - SHUTDOWN RIG"
+    else:
+        print result, "OK"
+    sleep(30)
 
-# test = get_bitcoin_usd
-# pdb.set_trace()
+
+# todos:
+# - Moving average with custom intervals
+# - Plotly
+# - Test trades
