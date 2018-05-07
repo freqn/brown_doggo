@@ -3,7 +3,6 @@ import sched, time
 import os
 from decimal import Decimal
 from binance.client import Client
-import pdb
 
 class App:
   def __init__(self, market, coin):
@@ -11,11 +10,12 @@ class App:
     self.coin = coin
     self.dataset = []
 
-  def authorize_user(self):
+  def authorize_client(self):
     self.client = Client(user.API_KEY, user.API_SECRET)
 
   def append_data(self, price):
-    self.dataset.append(price)
+    data = self.dataset
+    data.append(price) if len(data) < 5 else data.pop(0)
 
   def get_price(self):
     return [Decimal(x['price'])
@@ -24,10 +24,9 @@ class App:
             if x['symbol'] == self.market]
 
   def start(self):
-    self.authorize_user()
+    self.authorize_client()
     price = self.get_price()
     self.append_data(price)
-    pdb.set_trace()
 
   def _fetch_api_data(self):
     self.prices = self.client.get_all_tickers()
