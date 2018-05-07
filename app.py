@@ -17,22 +17,22 @@ class App:
   def store_data(self, price):
     self.dataset.append(price)
 
-  def get_coin_price(self):
+  def get_price(self):
     return [Decimal(x['price'])
             for x
-            in self._fetch_prices()
+            in self._fetch_api_data()
             if x['symbol'] == self.market]
 
-  def runner_start(self):
+  def start(self):
     self.auth_client()
-    price = self.get_coin_price()
+    price = self.get_price()
     self.store_data(price)
     pdb.set_trace()
 
-  def _fetch_prices(self):
+  def _fetch_api_data(self):
     self.prices = self.client.get_all_tickers()
     return self.prices
 
-App("NCASHETH","NCASH").runner_start()
+App("NCASHETH","NCASH").start()
 
 
