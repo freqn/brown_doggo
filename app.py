@@ -11,10 +11,10 @@ class App:
     self.coin = coin
     self.dataset = []
 
-  def auth_client(self):
+  def authorize_user(self):
     self.client = Client(user.API_KEY, user.API_SECRET)
 
-  def store_data(self, price):
+  def append_data(self, price):
     self.dataset.append(price)
 
   def get_price(self):
@@ -24,9 +24,9 @@ class App:
             if x['symbol'] == self.market]
 
   def start(self):
-    self.auth_client()
+    self.authorize_user()
     price = self.get_price()
-    self.store_data(price)
+    self.append_data(price)
     pdb.set_trace()
 
   def _fetch_api_data(self):
